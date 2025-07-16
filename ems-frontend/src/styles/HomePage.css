@@ -1,0 +1,56 @@
+.home-page {
+  padding: 32px;
+  background: #f5f5f9;
+  min-height: 100vh;
+}
+
+.home-header {
+  color: #1f1c2c;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(31, 28, 44, 0.12);
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 14px 18px;
+  border: 1px solid #e3e8f0;
+  text-align: left;
+}
+
+.employee-table th {
+  background: #1f1c2c;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.employee-table tr:hover {
+  background-color: #f0f0f5;
+}
+
+.employee-table button {
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #1f1c2c;
+  color: white;
+  border: none;
+  transition: background 0.2s;
+}
+
+.employee-table button:hover {
+  background: #928dab;
+}
