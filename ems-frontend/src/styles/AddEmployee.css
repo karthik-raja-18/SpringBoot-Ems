@@ -1,105 +1,132 @@
 /* Container styling */
 .add-employee-container {
-  max-width: 480px;
-  margin: 64px auto;
-  padding: 40px 36px;
-  background: linear-gradient(135deg, #2c283c, #1f1c2c);
-  color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
-  font-family: 'Segoe UI', sans-serif;
+  max-width: 500px;
+  margin: 72px auto;
+  padding: 48px 40px 40px 40px;
+  background: linear-gradient(135deg, #28243a 0%, #1f1c2c 100%);
+  color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(44, 40, 60, 0.32), 0 1.5px 8px rgba(255, 204, 0, 0.06);
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+  backdrop-filter: blur(2px);
 }
+
 
 /* Heading */
 .add-employee-container h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #ffcc00;
-  margin-bottom: 24px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffe066;
+  margin-bottom: 28px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(255,204,0,0.10);
 }
+
 
 /* Form layout */
 .add-employee-container form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
 }
+
 
 /* Labels */
 .add-employee-container label {
   font-weight: 600;
-  color: #f5f5f5;
+  color: #ffe066;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
+  letter-spacing: 0.1em;
+  font-size: 1.05rem;
 }
+
 
 /* Input fields */
 .add-employee-container input[type="text"] {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #928dab;
-  border-radius: 8px;
-  background-color: #ffffff;
-  color: #1f1c2c;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
+  padding: 13px 16px;
+  border: 1.5px solid #928dab;
+  border-radius: 10px;
+  background-color: #f7f7fa;
+  color: #232135;
+  font-size: 1.07rem;
+  box-shadow: 0 1.5px 8px rgba(44, 40, 60, 0.04);
+  transition: border-color 0.22s, box-shadow 0.22s, background-color 0.22s;
 }
 
 .add-employee-container input[type="text"]:focus {
-  border-color: #ffcc00;
+  border-color: #ffe066;
   outline: none;
-  background-color: #fdfcff;
-  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
+  background-color: #fffbe8;
+  box-shadow: 0 0 0 4px rgba(255, 224, 102, 0.17);
 }
+
 
 /* Submit button */
 .add-employee-container button[type="submit"] {
-  padding: 14px 0;
-  background: linear-gradient(90deg, #928dab, #ffcc00);
-  color: #1f1c2c;
+  padding: 15px 0;
+  background: linear-gradient(90deg, #ffe066 0%, #928dab 100%);
+  color: #232135;
   border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 700;
+  border-radius: 10px;
+  font-size: 1.15rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 12px rgba(255, 204, 0, 0.2);
+  transition: background 0.23s, box-shadow 0.23s, color 0.23s;
+  box-shadow: 0 4px 18px rgba(255, 224, 102, 0.17);
+  letter-spacing: 0.04em;
+  margin-top: 6px;
 }
 
 .add-employee-container button[type="submit"]:hover {
-  background: linear-gradient(90deg, #75cb5d, #928dab);
-  box-shadow: 0 6px 16px rgba(66, 204, 16, 0.3);
+  background: linear-gradient(90deg, #f9d423 0%, #928dab 100%);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(255, 224, 102, 0.23);
 }
+
 
 /* Success and error messages */
 .success {
-  color: #4caf50;
-  font-weight: 600;
+  color: #4fe18b;
+  font-weight: 700;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 10px;
+  font-size: 1.08rem;
+  letter-spacing: 0.03em;
 }
 
 .error {
-  color: #f44336;
-  font-weight: 600;
+  color: #ff5757;
+  font-weight: 700;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 10px;
+  font-size: 1.08rem;
+  letter-spacing: 0.03em;
 }
+
 
 /* Back button */
 .back-btn {
-  margin-top: 20px;
+  margin-top: 24px;
   background: transparent;
-  border: 2px solid #e7ddb2;
-  color: #ffcc00;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: 600;
+  border: 2px solid #ffe066;
+  color: #ffe066;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
   width: 100%;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 1.07rem;
+  transition: background 0.22s, color 0.22s, box-shadow 0.22s;
+  box-shadow: 0 2px 8px rgba(255, 224, 102, 0.07);
+}
+.back-btn:hover {
+  background: #ffe066;
+  color: #232135;
+  box-shadow: 0 4px 16px rgba(255, 224, 102, 0.13);
 }
