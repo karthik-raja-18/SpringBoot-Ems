@@ -21,6 +21,15 @@ public class EmployeeController {
         return "Welcome to SpringBoot Security";
     }
 
+    @GetMapping("/employees")
+    public List<Employee> searchEmployees(@RequestParam(value = "search", required = false) String search) {
+        if (search == null || search.isEmpty()) {
+            return employeeService.getMethod();
+        } else {
+            return employeeService.searchByIdOrName(search);
+        }
+    }
+
     @GetMapping("/employee")
     public List<Employee> getMethod(){
         return employeeService.getMethod();

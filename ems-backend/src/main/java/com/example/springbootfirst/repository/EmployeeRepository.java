@@ -10,4 +10,6 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     List<Employee> findByJob(String job);
     Employee findByEmpID(int empID);
+    List<Employee> findByEmpIDOrNameContainingIgnoreCase(int empID, String name);
+List<Employee> findByNameContainingIgnoreCase(String name);
 }

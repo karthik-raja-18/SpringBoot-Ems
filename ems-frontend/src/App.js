@@ -7,6 +7,8 @@ import Header from './components/Header';
 import Logout from './components/Logout';
 import HomePage from './components/HomePage';
 import AddEmployee from './components/AddEmployee';
+import AssignTask from './components/AssignTask';
+import EmployeeTasks from './components/EmployeeTasks';
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/add-employee" element={<AddEmployee />} />
+        <Route path="/assign-task" element={<AssignTask />} />
+        <Route path="/employee-tasks" element={<EmployeeTasks />} />
+        
       </Routes>
     </Router>
   );

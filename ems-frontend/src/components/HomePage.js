@@ -85,8 +85,23 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showEmployeeList, setShowEmployeeList] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setFilteredEmployees(
+      employees.filter(emp => {
+        const id = String(emp.empID || emp.id || '').toLowerCase();
+        const name = (emp.name || '').toLowerCase();
+        return (
+          id.includes(searchTerm.toLowerCase()) ||
+          name.includes(searchTerm.toLowerCase())
+        );
+      })
+    );
+  }, [employees, searchTerm]);
 
   // Show Employees handler
   const handleShowEmployees = () => {
@@ -118,6 +133,14 @@ const HomePage = () => {
       });
   };
 
+  // Listen for showEmployees event from header
+  useEffect(() => {
+    const listener = () => handleShowEmployees();
+    window.addEventListener('showEmployees', listener);
+    return () => window.removeEventListener('showEmployees', listener);
+  }, []);
+
+
   return (
     <div className="landing-container">
       <div className="landing-content">
@@ -125,14 +148,21 @@ const HomePage = () => {
         <p>You have successfully logged in to the Employee Management System.</p>
         <p>Here you can manage employees, view details, and more.</p>
         <button className="home-btn" onClick={handleShowEmployees} disabled={loading}>Show Employees</button>
-        <button className="home-btn" onClick={() => navigate('/add-employee')}>Add Employee</button>
+        {/* <button className="home-btn" onClick={() => navigate('/add-employee')}>Add Employee</button> */}
         {showEmployeeList && (
           <>
             <h2>Employee Names</h2>
+            <input
+              type="text"
+              placeholder="Search by Employee ID or Name..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              style={{ width: '100%', padding: '8px', marginBottom: '12px', borderRadius: '6px', border: '1px solid #ccc', fontSize: '1rem' }}
+            />
             {loading && <p>Loading employees...</p>}
             {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-            {!loading && !error && employees.length === 0 && <p>No employees found.</p>}
-            {!loading && !error && employees.length > 0 && (
+            {!loading && !error && filteredEmployees.length === 0 && <p>No employees found.</p>}
+            {!loading && !error && filteredEmployees.length > 0 && (
               <table className="employee-table" style={{width:'100%', borderCollapse:'collapse', marginTop:'16px'}}>
                 <thead>
                   <tr style={{background:'#f5f5f5'}}>
@@ -142,7 +172,7 @@ const HomePage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {employees.map((emp) => (
+                  {filteredEmployees.map((emp) => (
                     <tr key={emp.empID || emp.id}>
                       <td style={{border:'1px solid #ddd', padding:'8px'}}>{emp.empID || emp.id}</td>
                       <td style={{border:'1px solid #ddd', padding:'8px'}}>{editingId === (emp.empID || emp.id) ? (
@@ -159,8 +189,11 @@ const HomePage = () => {
                           <>
                             <button style={{background:'#1976d2',color:'#fff',border:'none',padding:'6px 12px',borderRadius:'5px',cursor:'pointer',marginRight:'6px'}} onClick={() => startEdit(emp)}>Update</button>
                             <button style={{background:'#d32f2f',color:'#fff',border:'none',padding:'6px 12px',borderRadius:'5px',cursor:'pointer',marginRight:'6px'}} onClick={() => handleDeleteEmployee(emp.empID || emp.id, emp.name)}>Delete</button>
-                            <button style={{background:'#6d4cff',color:'#fff',border:'none',padding:'6px 12px',borderRadius:'5px',cursor:'pointer'}} onClick={() => handleDisplayEmployee(emp)}>
+                            <button style={{background:'#6d4cff',color:'#fff',border:'none',padding:'6px 12px',borderRadius:'5px',cursor:'pointer',marginRight:'6px'}} onClick={() => handleDisplayEmployee(emp)}>
                               Display
+                            </button>
+                            <button style={{background:'#ffe066',color:'#232135',border:'none',padding:'6px 12px',borderRadius:'5px',cursor:'pointer'}} onClick={() => navigate('/assign-task', { state: { employee: emp } })}>
+                              Assign Task
                             </button>
                           </>
                         )}
