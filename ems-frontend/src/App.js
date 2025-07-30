@@ -13,7 +13,7 @@ import EmployeeTasks from './components/EmployeeTasks';
 function App() {
   return (
     <Router>
-      {window.location.pathname !== '/' && <Header />}
+      <Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<RegisterForm />} />

@@ -35,15 +35,16 @@ public class SpringConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
-                    corsConfig.setAllowedOrigins(List.of("http://localhost:5173")); // your frontend origin
+                    corsConfig.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000")); // Allow both dev and proxy
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                    corsConfig.setAllowedHeaders(List.of("*"));
+                    corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept"));
                     corsConfig.setAllowCredentials(true);
                     return corsConfig;
                 }))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // allow preflight
                         .requestMatchers("/api/auth/**").permitAll()              // public endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/tasks/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
                         .anyRequest().authenticated()                            // all others require auth
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

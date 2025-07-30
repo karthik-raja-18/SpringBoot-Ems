@@ -34,6 +34,7 @@ public class TaskController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<Task>> getTasksForEmployee(@PathVariable int employeeId) {
         return ResponseEntity.ok(taskService.getTasksForEmployee(employeeId));
