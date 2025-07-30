@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AssignTask.css';
+import { employeeApi } from '../services/api';
 
 const EmployeeTasks = () => {
   const [employees, setEmployees] = useState([]);
@@ -10,23 +12,28 @@ const EmployeeTasks = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [tasks, setTasks] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    setLoading(true);
-    fetch('/employee', {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        setEmployees(data);
-        setLoading(false);
-      })
-      .catch(err => {
+    const fetchEmployees = async () => {
+      setLoading(true);
+      try {
+        const response = await employeeApi.getEmployees();
+        setEmployees(response.data);
+      } catch (err) {
+        console.error('Error fetching employees:', err);
         setError('Failed to load employees');
+        if (err.response && err.response.status === 401) {
+          // Unauthorized - token might be invalid or expired
+          navigate('/login');
+        }
+      } finally {
         setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchEmployees();
+  }, [navigate]);
 
   useEffect(() => {
     setFilteredEmployees(
@@ -41,28 +48,23 @@ const EmployeeTasks = () => {
     );
   }, [employees, searchTerm]);
 
-  const handleShowTasks = (emp) => {
+  const handleShowTasks = async (emp) => {
     setSelectedEmployee(emp);
     setTasks([]);
     setLoading(true);
-    fetch(`/api/tasks/employee/${emp.empID || emp.id}`, {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    try {
+      const response = await employeeApi.getEmployeeTasks(emp.empID || emp.id);
+      setTasks(response.data);
+    } catch (err) {
+      console.error('Error fetching tasks:', err);
+      setError('Failed to load tasks');
+      if (err.response && err.response.status === 401) {
+        // Unauthorized - token might be invalid or expired
+        navigate('/login');
       }
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch tasks');
-        return res.json();
-      })
-      .then(data => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setTasks([]);
-        setLoading(false);
-        setError('Failed to load tasks');
-      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

@@ -20,19 +20,29 @@ const LoginForm = () => {
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify(form)
       });
 
-      const contentType = res.headers.get('content-type');
-      const data = contentType?.includes('application/json') ? await res.json() : await res.text();
+      const data = await res.json();
 
       if (!res.ok) {
-        throw new Error((data && data.error) || data || 'Login failed');
+        throw new Error(data?.message || data?.error || 'Login failed');
       }
 
-      if (data && data.token) {
-        localStorage.setItem('token', data.token);
+      if (!data.token) {
+        throw new Error('No authentication token received');
+      }
+
+      // Store the token in localStorage
+      localStorage.setItem('token', data.token);
+      
+      // Also store user data if available
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
       }
 
       navigate('/home');

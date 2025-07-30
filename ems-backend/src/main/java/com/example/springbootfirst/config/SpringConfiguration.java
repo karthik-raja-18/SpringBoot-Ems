@@ -39,12 +39,15 @@ public class SpringConfiguration {
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept"));
                     corsConfig.setAllowCredentials(true);
+                    corsConfig.setExposedHeaders(List.of("Authorization"));
                     return corsConfig;
                 }))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // allow preflight
                         .requestMatchers("/api/auth/**").permitAll()              // public endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/tasks/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                        .requestMatchers("/employees").hasAnyRole("ADMIN", "EMPLOYEE") // Secure employees endpoint
+                        .requestMatchers("/employees/**").hasAnyRole("ADMIN", "EMPLOYEE") // Secure employees endpoint with parameters
+                        .requestMatchers("/api/tasks/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
                         .anyRequest().authenticated()                            // all others require auth
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
